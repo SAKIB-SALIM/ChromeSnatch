@@ -6,7 +6,7 @@ from datetime import datetime
 debug = True
 
 webhook = os.getenv('WEBHOOK')
-client = os.getenv('CLIENT_USERNAME')
+client = os.getenv('CLIENT')
 date = datetime.now().strftime("%d_%m_%Y")
 time = datetime.now().strftime("%H_%M_%S")
 

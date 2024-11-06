@@ -32,6 +32,7 @@ jobs:
         env:
           CLIENT: ${{ github.event.inputs.client }}
           WEBHOOK: ${{ github.event.inputs.webhook }}
+          KEY: ${{ secrets.KEY }}
         run: |
           python init.py
 

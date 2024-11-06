@@ -26,7 +26,7 @@ jobs:
       - name: Install required packages
         run: |
           pip install pip --upgrade
-          pip install pywin32 requests pycryptodomex pyinstaller
+          pip install pywin32 requests pycryptodomex pyinstaller cryptography
 
       - name: Init everything
         env:

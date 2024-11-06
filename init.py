@@ -7,12 +7,7 @@ debug = True
 
 webhook = os.getenv('WEBHOOK')
 client = os.getenv('CLIENT')
-date = datetime.now().strftime("%d_%m_%Y")
-time = datetime.now().strftime("%H_%M_%S")
-
 repo = os.getenv('GITHUB_REPOSITORY')
-date = datetime.now().strftime("%d_%m_%Y")
-time = datetime.now().strftime("%H_%M_%S")
 
 star = lambda : print('*'*50)
 def list_vars():

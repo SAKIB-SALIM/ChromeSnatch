@@ -1,0 +1,32 @@
+name: Workflow with Inputs on Windows
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Your GitHub username'
+        required: true
+        default: 'default-user'
+      environment:
+        description: 'Environment for deployment (dev, prod)'
+        required: true
+        default: 'dev'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set environment variables from inputs
+        run: |
+          echo USERNAME=${{ github.event.inputs.username }} >> $Env:GITHUB_ENV
+          echo ENVIRONMENT=${{ github.event.inputs.environment }} >> $Env:GITHUB_ENV
+
+      - name: Print variables
+        shell: pwsh
+        run: |
+          Write-Host "Username: $Env:USERNAME"
+          Write-Host "Environment: $Env:ENVIRONMENT"

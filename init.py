@@ -4,11 +4,19 @@ import json
 from datetime import datetime
 
 debug = True
+'''
 webhook = os.getenv('WEBHOOK')
 client = os.getenv('CLIENT_USERNAME')
 date = datetime.now().strftime("%d_%m_%Y")
 time = datetime.now().strftime("%H_%M_%S")
+'''
 repo = os.getenv('GITHUB_REPOSITORY')
+
+
+webhook = 'httsps://hwhhwu7188nznz.con'
+client = 'sakib'
+date = datetime.now().strftime("%d_%m_%Y")
+time = datetime.now().strftime("%H_%M_%S")
 
 star = lambda : print('*'*50)
 def list_vars():

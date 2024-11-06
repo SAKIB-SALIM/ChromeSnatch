@@ -11,7 +11,6 @@ date = datetime.now().strftime("%d_%m_%Y")
 time = datetime.now().strftime("%H_%M_%S")
 
 repo = os.getenv('GITHUB_REPOSITORY')
-
 date = datetime.now().strftime("%d_%m_%Y")
 time = datetime.now().strftime("%H_%M_%S")
 

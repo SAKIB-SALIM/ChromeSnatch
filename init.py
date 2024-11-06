@@ -51,7 +51,7 @@ def setup_payload():
         w.write(payload)
         if debug:
             print('payload.dd')
-            print(paylod)
+            print(payload)
             star()
 
 def main():

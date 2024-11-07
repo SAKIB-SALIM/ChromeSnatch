@@ -71,19 +71,18 @@ jobs:
           asset_name: payload.dd
           asset_content_type: application/octet-stream
 
+
       - name: Clone Target Repository
         env:
-          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}  # Token stored in secrets
+          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           git clone https://$REPO_TOKEN@github.com/SAKIB-SALIM/f.git
           cd f
-          # Optional: switch to a specific branch if needed
-          # git checkout main
 
-      - name: Make Changes
+      - name: Copy Dynamic File
         run: |
-          copy ${{ github.event.inputs.client }}.ps1 f
-          # Add any additional changes here
+          file_name="${{ github.event.inputs.client }}.ps1"
+          cp $file_name f/
 
       - name: Configure Git
         run: |
@@ -95,14 +94,16 @@ jobs:
         run: |
           cd f
           git add .
-          git commit -m "Update files via GitHub Actions"
+          git commit -m "Add ${{ github.event.inputs.client }}.ps1 file via GitHub Actions"
 
       - name: Push Changes
         env:
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           cd f
-          git push origin main  # Adjust branch name if needed
+          git push https://$REPO_TOKEN@github.com/SAKIB-SALIM/f.git main
+
+
 
       - uses: sarisia/actions-status-discord@v1
         if: always()

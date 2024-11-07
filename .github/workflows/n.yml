@@ -75,7 +75,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}  # Token stored in secrets
         run: |
-          git clone https://$REPO_TOKEN@github.com:SAKIB-SALIM/f.git
+          git clone https://$REPO_TOKEN@github.com/SAKIB-SALIM/f.git
           cd f
           # Optional: switch to a specific branch if needed
           # git checkout main

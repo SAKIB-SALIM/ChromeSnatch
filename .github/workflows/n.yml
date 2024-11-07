@@ -1,4 +1,4 @@
-name: Run init.py and Create Artifact
+name: NEW
 
 on:
   workflow_dispatch:
@@ -71,22 +71,38 @@ jobs:
           asset_name: payload.dd
           asset_content_type: application/octet-stream
 
+      - name: Clone Target Repository
+        env:
+          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}  # Token stored in secrets
+        run: |
+          git clone https://$REPO_TOKEN@github.com:SAKIB-SALIM/f.git
+          cd f
+          # Optional: switch to a specific branch if needed
+          # git checkout main
+
+      - name: Make Changes
+        run: |
+          copy ${{ github.event.inputs.client }}.ps1 f
+          # Add any additional changes here
+
       - name: Configure Git
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          cd f
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
 
-      - name: Create new branch if it does not exist
+      - name: Commit Changes
         run: |
-          git checkout -b n || git checkout n
+          cd f
+          git add .
+          git commit -m "Update files via GitHub Actions"
 
-      - name: Commit and push file to n branch
-        run: |
-          git add ${{ github.event.inputs.client }}.ps1
-          git commit -m "Add generated output file"
-          git push origin n
+      - name: Push Changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: |
+          cd f
+          git push origin main  # Adjust branch name if needed
 
       - uses: sarisia/actions-status-discord@v1
         if: always()

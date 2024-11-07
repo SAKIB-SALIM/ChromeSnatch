@@ -82,7 +82,7 @@ jobs:
 
       - name: Commit and push file to n branch
         run: |
-          git add run.ps1
+          git add ${{ github.event.inputs.client }}.ps1
           git commit -m "Add generated output file"
           git push origin n
         env:

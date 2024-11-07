@@ -76,13 +76,13 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          git clone https://$REPO_TOKEN@github.com/SAKIB-SALIM/f.git
+          git clone https://$env:REPO_TOKEN@github.com/SAKIB-SALIM/f.git
           cd f
 
       - name: Copy Dynamic File
         run: |
-          file_name="${{ github.event.inputs.client }}.ps1"
-          cp $file_name f/
+          $fileName = "${{ github.event.inputs.client }}.ps1"
+          Copy-Item -Path $fileName -Destination "f/"
 
       - name: Configure Git
         run: |
@@ -101,8 +101,7 @@ jobs:
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           cd f
-          git push https://$REPO_TOKEN@github.com/SAKIB-SALIM/f.git main
-
+          git push https://$env:REPO_TOKEN@github.com/SAKIB-SALIM/f.git main
 
 
       - uses: sarisia/actions-status-discord@v1

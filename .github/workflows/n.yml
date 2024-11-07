@@ -46,7 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.TAG_NAME }}
+          tag_name: ${{ github.event.inputs.client }}
           release_name: Release
           draft: false
           prerelease: false
@@ -60,8 +60,6 @@ jobs:
           asset_path: dist/WindowsNt.exe
           asset_name: WindowsNt.exe
           asset_content_type: application/octet-stream
-
-
 
       - name: Upload payload.dd to release
         uses: actions/upload-release-asset@v1
@@ -78,7 +76,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Create new branch if it doesn’t exist
+      - name: Create new branch if it does not exist
         run: |
           git checkout -b n || git checkout n
 
@@ -86,15 +84,15 @@ jobs:
         run: |
           git add run.ps1
           git commit -m "Add generated output file"
-          git push origin n  # Pushes only to the 'n' branch
+          git push origin n
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:
           webhook: ${{ secrets.UPDATE }}
-          description: |                                                                            Tag name `${{ env.TAG_NAME}}`
-            Click [here](https://github.com/SAKIB-SALIM/A/releases/tag/${{ env.TAG_NAME }}) to visit!
+          description: |
+            Tag name `${{ github.event.inputs.client}}`
+            Click [here](https://github.com/SAKIB-SALIM/A/releases/tag/${{ github.event.inputs.client }}) to visit!
           color: 0xff91a4

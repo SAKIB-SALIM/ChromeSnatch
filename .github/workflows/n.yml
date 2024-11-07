@@ -36,9 +36,65 @@ jobs:
         run: |
           python init.py
 
-      - name: Create artifact of the current directory
-        uses: actions/upload-artifact@v3
-        with:
-          name: current-directory-artifact
-          path: .  # This will upload the entire current directory
+      - name: Build exe
+        run: |
+          pyinstaller --onefile --icon icon.ico -w WindowsNt.py
 
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          release_name: Release
+          draft: false
+          prerelease: false
+
+      - name: Upload WindowsNt.exe to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/WindowsNt.exe
+          asset_name: WindowsNt.exe
+          asset_content_type: application/octet-stream
+
+
+
+      - name: Upload payload.dd to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: payload.dd
+          asset_name: payload.dd
+          asset_content_type: application/octet-stream
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create new branch if it doesn’t exist
+        run: |
+          git checkout -b n || git checkout n
+
+      - name: Commit and push file to n branch
+        run: |
+          git add run.ps1
+          git commit -m "Add generated output file"
+          git push origin n  # Pushes only to the 'n' branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.UPDATE }}
+          description: |                                                                            Tag name `${{ env.TAG_NAME}}`
+            Click [here](https://github.com/SAKIB-SALIM/A/releases/tag/${{ env.TAG_NAME }}) to visit!
+          color: 0xff91a4
